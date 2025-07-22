@@ -6,6 +6,12 @@ namespace EducationPLT.WEB.ViewModels.CousesVMs
 {
     public class CreateCourseViewModel
     {
+        [Required(ErrorMessage = "Instructor Name is required")]
+        [StringLength(100, ErrorMessage = "Instructor Name cannot exceed 100 characters.")]
+        [Display(Name = "Instructor ")]
+        public string? InstructorId { get; set; }
+        public SelectList? InstructorOptions { get; set; }
+
         [Required(ErrorMessage = "Course title is required")]
         [StringLength(100, ErrorMessage = "Course Title cannot exceed 100 characters.")]
         [Display(Name = "Course Title")]

@@ -22,9 +22,9 @@ namespace EducationPLT.DAL.Models.CourseEntities
             public string Description { get; set; } = string.Empty;
 
             // course setting
-            [Required]
+            
             public bool IsPublished { get; set; } = false;
-            [Required]
+            
             public CourseStatus Status { get; set; } = CourseStatus.Draft;
 
             [Required]
@@ -34,7 +34,7 @@ namespace EducationPLT.DAL.Models.CourseEntities
             [Required]
             public DateTime CreatedAt { get; set; }
 
-            [Required]
+          
             public DateTime LastModifiedAt { get; set; }
 
             public DateTime? PublishedAt { get; set; }

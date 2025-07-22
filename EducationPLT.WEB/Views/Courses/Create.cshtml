@@ -1,162 +1,326 @@
-﻿@model EducationPLT.DAL.Models.CourseEntities.Course
-
+﻿@model EducationPLT.WEB.ViewModels.CousesVMs.CreateCourseViewModel
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create Course";
 }
 
-<h1>Create</h1>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <!-- Page Header -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h2 class="mb-1">
+                        <i class="fas fa-plus-circle text-primary me-2"></i>
+                        Create New Course
+                    </h2>
+                    <p class="text-muted mb-0">Add a new course to the platform</p>
+                </div>
+                <div>
+                    <a asp-action="Index" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left me-1"></i>
+                        Back to Courses
+                    </a>
+                </div>
+            </div>
 
-<h4>Course</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
+            <!-- Form Card -->
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <form asp-action="Create" method="post" enctype="multipart/form-data" novalidate>
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                        <!-- Basic Information Section -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h5 class="border-bottom pb-2 mb-3">
+                                    <i class="fas fa-info-circle text-primary me-2"></i>
+                                    Basic Information
+                                </h5>
+                            </div>
+
+                            <div class="col-md-8">
+                                <div class="mb-3">
+                                    <label asp-for="Title" class="form-label fw-semibold">
+                                        Course Title <span class="text-danger">*</span>
+                                    </label>
+                                    <input asp-for="Title" class="form-control" placeholder="Enter course title" />
+                                    <span asp-validation-for="Title" class="text-danger small"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label asp-for="Difficulty" class="form-label fw-semibold">
+                                        Difficulty Level <span class="text-danger">*</span>
+                                    </label>
+                                    <select asp-for="Difficulty" asp-items="Model.DifficultyOptions" class="form-select">
+                                        <option value="">Select Difficulty</option>
+                                    </select>
+                                    <span asp-validation-for="Difficulty" class="text-danger small"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <label asp-for="Description" class="form-label fw-semibold">
+                                        Description <span class="text-danger">*</span>
+                                    </label>
+                                    <textarea asp-for="Description" class="form-control" rows="4"
+                                              placeholder="Provide a detailed description of the course"></textarea>
+                                    <span asp-validation-for="Description" class="text-danger small"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Course Details Section -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h5 class="border-bottom pb-2 mb-3">
+                                    <i class="fas fa-cog text-primary me-2"></i>
+                                    Course Details
+                                </h5>
+                            </div>
+
+
+                            <!-- Instructor Selection (add this in the Course Details section) -->
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label asp-for="InstructorId" class="form-label fw-semibold">
+                                        Instructor <span class="text-danger">*</span>
+                                    </label>
+                                    <select asp-for="InstructorId" asp-items="Model.InstructorOptions" class="form-select">
+                                        <option value="">Select Instructor</option>
+                                    </select>
+                                    <span asp-validation-for="InstructorId" class="text-danger small"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label asp-for="CategoryId" class="form-label fw-semibold">Category</label>
+                                    <select asp-for="CategoryId" asp-items="Model.CategoryOptions" class="form-select">
+                                        <option value="">Select Category</option>
+                                    </select>
+                                    <span asp-validation-for="CategoryId" class="text-danger small"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label asp-for="MaxStudents" class="form-label fw-semibold">Maximum Students</label>
+                                    <input asp-for="MaxStudents" class="form-control" type="number" min="1" max="1000" />
+                                    <span asp-validation-for="MaxStudents" class="text-danger small"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label asp-for="EstimatedDuration" class="form-label fw-semibold">
+                                        Duration (minutes)
+                                    </label>
+                                    <input asp-for="EstimatedDuration" class="form-control" type="number" min="1" />
+                                    <span asp-validation-for="EstimatedDuration" class="text-danger small"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Scheduling Section -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h5 class="border-bottom pb-2 mb-3">
+                                    <i class="fas fa-calendar text-primary me-2"></i>
+                                    Schedule
+                                </h5>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="StartDate" class="form-label fw-semibold">Start Date</label>
+                                    <input asp-for="StartDate" class="form-control" type="date" />
+                                    <span asp-validation-for="StartDate" class="text-danger small"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="EndDate" class="form-label fw-semibold">End Date</label>
+                                    <input asp-for="EndDate" class="form-control" type="date" />
+                                    <span asp-validation-for="EndDate" class="text-danger small"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pricing Section -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h5 class="border-bottom pb-2 mb-3">
+                                    <i class="fas fa-dollar-sign text-primary me-2"></i>
+                                    Pricing
+                                </h5>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <div class="form-check form-switch">
+                                        <input asp-for="IsFree" class="form-check-input" type="checkbox" id="isFreeSwitch" />
+                                        <label class="form-check-label fw-semibold" for="isFreeSwitch">
+                                            Free Course
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6" id="priceContainer">
+                                <div class="mb-3">
+                                    <label asp-for="Price" class="form-label fw-semibold">Price ($)</label>
+                                    <input asp-for="Price" class="form-control" type="number" step="0.01" min="0" />
+                                    <span asp-validation-for="Price" class="text-danger small"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Media Section -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h5 class="border-bottom pb-2 mb-3">
+                                    <i class="fas fa-image text-primary me-2"></i>
+                                    Media Files
+                                </h5>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="ThumbnailFile" class="form-label fw-semibold">Course Thumbnail</label>
+                                    <input asp-for="ThumbnailFile" class="form-control" type="file" accept="image/*" />
+                                    <div class="form-text">Upload an image for the course thumbnail (JPG, PNG, GIF)</div>
+                                    <span asp-validation-for="ThumbnailFile" class="text-danger small"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="PreviewVideoFile" class="form-label fw-semibold">Preview Video</label>
+                                    <input asp-for="PreviewVideoFile" class="form-control" type="file" accept="video/*" />
+                                    <div class="form-text">Upload a preview video for the course (MP4, AVI, MOV)</div>
+                                    <span asp-validation-for="PreviewVideoFile" class="text-danger small"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Additional Information Section -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h5 class="border-bottom pb-2 mb-3">
+                                    <i class="fas fa-list text-primary me-2"></i>
+                                    Additional Information
+                                </h5>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="Requirements" class="form-label fw-semibold">Prerequisites & Requirements</label>
+                                    <textarea asp-for="Requirements" class="form-control" rows="5"
+                                              placeholder="List any prerequisites or requirements for this course"></textarea>
+                                    <span asp-validation-for="Requirements" class="text-danger small"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="LearningObjectives" class="form-label fw-semibold">Learning Objectives</label>
+                                    <textarea asp-for="LearningObjectives" class="form-control" rows="5"
+                                              placeholder="Describe what students will learn from this course"></textarea>
+                                    <span asp-validation-for="LearningObjectives" class="text-danger small"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Form Actions -->
+                        <div class="row">
+                            <div class="col-12">
+                                <hr class="my-4">
+                                <div class="d-flex justify-content-between">
+                                    <a asp-action="Index" class="btn btn-outline-secondary">
+                                        <i class="fas fa-times me-1"></i>
+                                        Cancel
+                                    </a>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-save me-1"></i>
+                                        Create Course
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsPublished" /> @Html.DisplayNameFor(model => model.IsPublished)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="Status" class="control-label"></label>
-                <select asp-for="Status" class="form-control"></select>
-                <span asp-validation-for="Status" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Difficulty" class="control-label"></label>
-                <select asp-for="Difficulty" class="form-control"></select>
-                <span asp-validation-for="Difficulty" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreatedAt" class="control-label"></label>
-                <input asp-for="CreatedAt" class="form-control" />
-                <span asp-validation-for="CreatedAt" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LastModifiedAt" class="control-label"></label>
-                <input asp-for="LastModifiedAt" class="form-control" />
-                <span asp-validation-for="LastModifiedAt" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PublishedAt" class="control-label"></label>
-                <input asp-for="PublishedAt" class="form-control" />
-                <span asp-validation-for="PublishedAt" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="StartDate" class="control-label"></label>
-                <input asp-for="StartDate" class="form-control" />
-                <span asp-validation-for="StartDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EndDate" class="control-label"></label>
-                <input asp-for="EndDate" class="form-control" />
-                <span asp-validation-for="EndDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MaxStudents" class="control-label"></label>
-                <input asp-for="MaxStudents" class="form-control" />
-                <span asp-validation-for="MaxStudents" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EstimatedDuration" class="control-label"></label>
-                <input asp-for="EstimatedDuration" class="form-control" />
-                <span asp-validation-for="EstimatedDuration" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
-                <span asp-validation-for="Price" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsFree" /> @Html.DisplayNameFor(model => model.IsFree)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="InstructorId" class="control-label"></label>
-                <select asp-for="InstructorId" class ="form-control" asp-items="ViewBag.InstructorId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="CategoryId" class="control-label"></label>
-                <input asp-for="CategoryId" class="form-control" />
-                <span asp-validation-for="CategoryId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ThumbnailUrl" class="control-label"></label>
-                <input asp-for="ThumbnailUrl" class="form-control" />
-                <span asp-validation-for="ThumbnailUrl" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PreviewVideoUrl" class="control-label"></label>
-                <input asp-for="PreviewVideoUrl" class="form-control" />
-                <span asp-validation-for="PreviewVideoUrl" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Requirements" class="control-label"></label>
-                <input asp-for="Requirements" class="form-control" />
-                <span asp-validation-for="Requirements" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LearningObjectives" class="control-label"></label>
-                <input asp-for="LearningObjectives" class="form-control" />
-                <span asp-validation-for="LearningObjectives" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreatedUtc" class="control-label"></label>
-                <input asp-for="CreatedUtc" class="form-control" />
-                <span asp-validation-for="CreatedUtc" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreatedBy" class="control-label"></label>
-                <input asp-for="CreatedBy" class="form-control" />
-                <span asp-validation-for="CreatedBy" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ModifiedUtc" class="control-label"></label>
-                <input asp-for="ModifiedUtc" class="form-control" />
-                <span asp-validation-for="ModifiedUtc" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ModifiedBy" class="control-label"></label>
-                <input asp-for="ModifiedBy" class="form-control" />
-                <span asp-validation-for="ModifiedBy" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsDeleted" /> @Html.DisplayNameFor(model => model.IsDeleted)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="DeletedAt" class="control-label"></label>
-                <input asp-for="DeletedAt" class="form-control" />
-                <span asp-validation-for="DeletedAt" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DeletedBy" class="control-label"></label>
-                <input asp-for="DeletedBy" class="form-control" />
-                <span asp-validation-for="DeletedBy" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        $(document).ready(function() {
+            // Handle free course toggle
+            function togglePriceField() {
+                var isFree = $('#isFreeSwitch').is(':checked');
+                var priceContainer = $('#priceContainer');
+                var priceInput = $('input[name="Price"]');
+
+                if (isFree) {
+                    priceContainer.hide();
+                    priceInput.val('0');
+                } else {
+                    priceContainer.show();
+                    if (priceInput.val() === '0') {
+                        priceInput.val('');
+                    }
+                }
+            }
+
+            // Initialize price field visibility
+            togglePriceField();
+
+            // Handle checkbox change
+            $('#isFreeSwitch').change(function() {
+                togglePriceField();
+            });
+
+            // Form validation enhancement
+            $('form').submit(function(e) {
+                var isValid = true;
+                var errors = [];
+
+                // Custom validation
+                if (!$('input[name="Title"]').val().trim()) {
+                    errors.push('Course title is required');
+                    isValid = false;
+                }
+
+                if (!$('select[name="Difficulty"]').val()) {
+                    errors.push('Difficulty level is required');
+                    isValid = false;
+                }
+
+                if (!$('textarea[name="Description"]').val().trim()) {
+                    errors.push('Course description is required');
+                    isValid = false;
+                }
+
+                if (!$('#isFreeSwitch').is(':checked') && !$('input[name="Price"]').val()) {
+                    errors.push('Price is required for paid courses');
+                    isValid = false;
+                }
+
+                if (!isValid) {
+                    e.preventDefault();
+                    alert('Please fix the following errors:\n' + errors.join('\n'));
+                }
+            });
+        });
+    </script>
 }
