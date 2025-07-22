@@ -56,16 +56,19 @@ namespace EducationPLT.DAL.Models.CourseEntities
 
             // Instructor/Owner
             [Required]
+            [ForeignKey("InstructorId")]
             public string InstructorId { get; set; } = string.Empty;
 
-            [ForeignKey("InstructorId")]
             public virtual ApplicationUser Instructor { get; set; }
 
             // Course Category/Topic
+            [ForeignKey("CourseCategoryId")]
             public int? CategoryId { get; set; }
+            public virtual CourseCategory Category { get; set; }
 
-            // Thumbnail/Preview
-            [StringLength(500)]
+
+        // Thumbnail/Preview
+        [StringLength(500)]
             public string ThumbnailUrl { get; set; } = string.Empty;
 
             [StringLength(500)]

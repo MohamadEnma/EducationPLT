@@ -209,21 +209,27 @@ namespace EducationPLT.DAL.Migrations
                     ModifiedBy = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Courses", x => x.CourseId);
                     table.ForeignKey(
+                        name: "FK_Courses_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
                         name: "FK_Courses_AspNetUsers_InstructorId",
                         column: x => x.InstructorId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Enrollment",
+                name: "Enrollments",
                 columns: table => new
                 {
                     EnrollmentId = table.Column<int>(type: "int", nullable: false)
@@ -236,11 +242,11 @@ namespace EducationPLT.DAL.Migrations
                     CompletionDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ExpiryDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastAccessedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CompletionPercentage = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    CompletionPercentage = table.Column<decimal>(type: "decimal(5,2)", nullable: false),
                     CompletedLessons = table.Column<int>(type: "int", nullable: false),
                     TotalLessons = table.Column<int>(type: "int", nullable: false),
                     TotalTimeSpent = table.Column<TimeSpan>(type: "time", nullable: false),
-                    FinalGrade = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    FinalGrade = table.Column<decimal>(type: "decimal(5,2)", nullable: false),
                     HasPassed = table.Column<bool>(type: "bit", nullable: false),
                     GradeComments = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PaidAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
@@ -263,19 +269,25 @@ namespace EducationPLT.DAL.Migrations
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsExpired = table.Column<bool>(type: "bit", nullable: false)
+                    IsExpired = table.Column<bool>(type: "bit", nullable: false),
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Enrollment", x => x.EnrollmentId);
+                    table.PrimaryKey("PK_Enrollments", x => x.EnrollmentId);
                     table.ForeignKey(
-                        name: "FK_Enrollment_AspNetUsers_StudentId",
+                        name: "FK_Enrollments_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Enrollments_AspNetUsers_StudentId",
                         column: x => x.StudentId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Enrollment_Courses_CourseId",
+                        name: "FK_Enrollments_Courses_CourseId",
                         column: x => x.CourseId,
                         principalTable: "Courses",
                         principalColumn: "CourseId",
@@ -322,18 +334,28 @@ namespace EducationPLT.DAL.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Courses_ApplicationUserId",
+                table: "Courses",
+                column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Courses_InstructorId",
                 table: "Courses",
                 column: "InstructorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Enrollment_CourseId",
-                table: "Enrollment",
+                name: "IX_Enrollments_ApplicationUserId",
+                table: "Enrollments",
+                column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Enrollments_CourseId",
+                table: "Enrollments",
                 column: "CourseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Enrollment_StudentId",
-                table: "Enrollment",
+                name: "IX_Enrollments_StudentId",
+                table: "Enrollments",
                 column: "StudentId");
         }
 
@@ -356,7 +378,7 @@ namespace EducationPLT.DAL.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Enrollment");
+                name: "Enrollments");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

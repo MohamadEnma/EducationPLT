@@ -42,72 +42,72 @@ namespace EducationPlatform.DAL.Seeds
             }
         }
 
-        //private static async Task SeedCourseCategoriesAsync(EducationDbContext context)
-        //{
-        //    if (!context.Categories.Any())
-        //    {
-        //        var categories = new List<CourseCategory>
-        //        {
-        //            new CourseCategory
-        //            {
-        //                Name = "Programming",
-        //                Description = "Learn various programming languages and software development",
-        //                DisplayOrder = 1,
-        //                IconUrl = "fas fa-code",
-        //                ImageUrl = "/images/categories/programming.jpg",
-        //                ColorCode = "#007bff",
-        //                IsActive = true,
-        //                Slug = "programming",
-        //                MetaTitle = "Programming Courses",
-        //                MetaDescription = "Master programming with our comprehensive courses",
-        //                Keywords = "programming, coding, software development",
-        //                CreatedUtc = DateTime.UtcNow,
-        //                CreatedBy = "System",
-        //                LastModifiedAt = DateTime.UtcNow,
-        //                IsDeleted = false
-        //            },
-        //            new CourseCategory
-        //            {
-        //                Name = "Design",
-        //                Description = "Graphic design, UI/UX, and creative arts courses",
-        //                DisplayOrder = 2,
-        //                IconUrl = "fas fa-paint-brush",
-        //                ImageUrl = "/images/categories/design.jpg",
-        //                ColorCode = "#28a745",
-        //                IsActive = true,
-        //                Slug = "design",
-        //                MetaTitle = "Design Courses",
-        //                MetaDescription = "Unleash your creativity with our design courses",
-        //                Keywords = "design, graphics, ui, ux, creative",
-        //                CreatedUtc = DateTime.UtcNow,
-        //                CreatedBy = "System",
-        //                LastModifiedAt = DateTime.UtcNow,
-        //                IsDeleted = false
-        //            },
-        //            new CourseCategory
-        //            {
-        //                Name = "Business",
-        //                Description = "Business management, marketing, and entrepreneurship",
-        //                DisplayOrder = 3,
-        //                IconUrl = "fas fa-briefcase",
-        //                ImageUrl = "/images/categories/business.jpg",
-        //                ColorCode = "#ffc107",
-        //                IsActive = true,
-        //                Slug = "business",
-        //                MetaTitle = "Business Courses",
-        //                MetaDescription = "Grow your business skills with expert-led courses",
-        //                Keywords = "business, management, marketing, entrepreneurship",
-        //                CreatedUtc = DateTime.UtcNow,
-        //                CreatedBy = "System",
-        //                LastModifiedAt = DateTime.UtcNow,
-        //                IsDeleted = false
-        //            }
-        //        };
+        private static async Task SeedCourseCategoriesAsync(ApplicationDbContext context)
+        {
+            if (!context.Categories.Any())
+            {
+                var categories = new List<CourseCategory>
+                {
+                    new CourseCategory
+                    {
+                        Name = "Programming",
+                        Description = "Learn various programming languages and software development",
+                        DisplayOrder = 1,
+                        IconUrl = "fas fa-code",
+                        ImageUrl = "/images/categories/programming.jpg",
+                        ColorCode = "#007bff",
+                        IsActive = true,
+                        Slug = "programming",
+                        MetaTitle = "Programming Courses",
+                        MetaDescription = "Master programming with our comprehensive courses",
+                        Keywords = "programming, coding, software development",
+                        CreatedUtc = DateTime.UtcNow,
+                        CreatedBy = "System",
+                        LastModifiedAt = DateTime.UtcNow,
+                        IsDeleted = false
+                    },
+                    new CourseCategory
+                    {
+                        Name = "Design",
+                        Description = "Graphic design, UI/UX, and creative arts courses",
+                        DisplayOrder = 2,
+                        IconUrl = "fas fa-paint-brush",
+                        ImageUrl = "/images/categories/design.jpg",
+                        ColorCode = "#28a745",
+                        IsActive = true,
+                        Slug = "design",
+                        MetaTitle = "Design Courses",
+                        MetaDescription = "Unleash your creativity with our design courses",
+                        Keywords = "design, graphics, ui, ux, creative",
+                        CreatedUtc = DateTime.UtcNow,
+                        CreatedBy = "System",
+                        LastModifiedAt = DateTime.UtcNow,
+                        IsDeleted = false
+                    },
+                    new CourseCategory
+                    {
+                        Name = "Business",
+                        Description = "Business management, marketing, and entrepreneurship",
+                        DisplayOrder = 3,
+                        IconUrl = "fas fa-briefcase",
+                        ImageUrl = "/images/categories/business.jpg",
+                        ColorCode = "#ffc107",
+                        IsActive = true,
+                        Slug = "business",
+                        MetaTitle = "Business Courses",
+                        MetaDescription = "Grow your business skills with expert-led courses",
+                        Keywords = "business, management, marketing, entrepreneurship",
+                        CreatedUtc = DateTime.UtcNow,
+                        CreatedBy = "System",
+                        LastModifiedAt = DateTime.UtcNow,
+                        IsDeleted = false
+                    }
+                };
 
-        //        context.Categories.AddRange(categories);
-        //        await context.SaveChangesAsync();
-        //    }
-        //}
+                context.Categories.AddRange(categories);
+                await context.SaveChangesAsync();
+            }
+        }
 
         private static async Task SeedUsersAsync(UserManager<ApplicationUser> userManager)
         {

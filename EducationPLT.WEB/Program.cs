@@ -51,6 +51,7 @@ namespace EducationPLT.WEB
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddRazorPages();
 
 
             // Add DAL repositories

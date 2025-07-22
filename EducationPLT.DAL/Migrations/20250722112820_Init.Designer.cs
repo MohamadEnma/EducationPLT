@@ -4,6 +4,7 @@ using EducationPLT.DAL.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EducationPLT.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250722112820_Init")]
+    partial class Init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,25 +33,22 @@ namespace EducationPLT.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CourseId"));
 
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int?>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2025, 7, 22, 12, 24, 34, 206, DateTimeKind.Utc).AddTicks(2111));
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
-                        .ValueGeneratedOnAdd()
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)")
-                        .HasDefaultValue("MohamadEnma");
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<DateTime>("CreatedUtc")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2025, 7, 22, 12, 24, 34, 206, DateTimeKind.Utc).AddTicks(4303));
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DeletedAt")
                         .HasColumnType("datetime2");
@@ -59,15 +59,11 @@ namespace EducationPLT.DAL.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(2000)
-                        .HasColumnType("nvarchar(2000)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
-                    b.Property<string>("Difficulty")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasDefaultValue("Beginner");
+                    b.Property<int>("Difficulty")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime2");
@@ -83,21 +79,16 @@ namespace EducationPLT.DAL.Migrations
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsFree")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsPublished")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("LastModifiedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2025, 7, 22, 12, 24, 34, 206, DateTimeKind.Utc).AddTicks(2642));
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("LearningObjectives")
+                        .IsRequired()
                         .HasMaxLength(4000)
                         .HasColumnType("nvarchar(4000)");
 
@@ -105,6 +96,7 @@ namespace EducationPLT.DAL.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("ModifiedBy")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
@@ -112,6 +104,7 @@ namespace EducationPLT.DAL.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("PreviewVideoUrl")
+                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
@@ -122,199 +115,33 @@ namespace EducationPLT.DAL.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Requirements")
+                        .IsRequired()
                         .HasMaxLength(4000)
                         .HasColumnType("nvarchar(4000)");
 
                     b.Property<DateTime?>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasDefaultValue("Draft");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<string>("ThumbnailUrl")
+                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("CourseId");
 
-                    b.HasIndex("CategoryId")
-                        .HasDatabaseName("IX_Courses_CategoryId");
+                    b.HasIndex("ApplicationUserId");
 
-                    b.HasIndex("CreatedUtc")
-                        .HasDatabaseName("IX_Courses_CreatedUtc");
+                    b.HasIndex("InstructorId");
 
-                    b.HasIndex("InstructorId")
-                        .HasDatabaseName("IX_Courses_InstructorId");
-
-                    b.HasIndex("Status")
-                        .HasDatabaseName("IX_Courses_Status");
-
-                    b.HasIndex("Title")
-                        .HasDatabaseName("IX_Courses_Title");
-
-                    b.HasIndex("IsPublished", "Status")
-                        .HasDatabaseName("IX_Courses_PublishStatus");
-
-                    b.ToTable("Courses", (string)null);
-                });
-
-            modelBuilder.Entity("EducationPLT.DAL.Models.CourseEntities.CourseCategory", b =>
-                {
-                    b.Property<int>("CourseCategoryId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CourseCategoryId"));
-
-                    b.Property<string>("ColorCode")
-                        .IsRequired()
-                        .HasMaxLength(7)
-                        .HasColumnType("nvarchar(7)");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)")
-                        .HasDefaultValue("MohamadEnma");
-
-                    b.Property<DateTime>("CreatedUtc")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2025, 7, 22, 12, 24, 34, 207, DateTimeKind.Utc).AddTicks(8759));
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DeletedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<int>("DisplayOrder")
-                        .HasColumnType("int");
-
-                    b.Property<string>("IconUrl")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Keywords")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<DateTime>("LastModifiedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2025, 7, 6, 11, 24, 28, 0, DateTimeKind.Unspecified));
-
-                    b.Property<string>("MetaDescription")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<string>("MetaTitle")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("ModifiedBy")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<DateTime?>("ModifiedUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Slug")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("CourseCategoryId");
-
-                    b.HasIndex("DisplayOrder")
-                        .HasDatabaseName("IX_CourseCategories_DisplayOrder");
-
-                    b.HasIndex("Name")
-                        .HasDatabaseName("IX_CourseCategories_Name");
-
-                    b.HasIndex("Slug")
-                        .IsUnique()
-                        .HasDatabaseName("IX_CourseCategories_Slug");
-
-                    b.ToTable("CourseCategories", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            CourseCategoryId = 1,
-                            ColorCode = "#3498db",
-                            CreatedBy = "MohamadEnma",
-                            CreatedUtc = new DateTime(2025, 7, 6, 11, 24, 28, 0, DateTimeKind.Unspecified),
-                            Description = "Programming and Software Development courses",
-                            DisplayOrder = 1,
-                            IconUrl = "https://example.com/icons/programming.png",
-                            ImageUrl = "",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Keywords = "programming, software development, coding, courses",
-                            LastModifiedAt = new DateTime(2025, 7, 22, 12, 24, 34, 208, DateTimeKind.Utc).AddTicks(8075),
-                            MetaDescription = "Explore our wide range of programming courses to enhance your coding skills.",
-                            MetaTitle = "Programming Courses",
-                            ModifiedBy = "MohamadEnma",
-                            Name = "Programming",
-                            Slug = "programming"
-                        },
-                        new
-                        {
-                            CourseCategoryId = 2,
-                            ColorCode = "#2ecc71",
-                            CreatedBy = "MohamadEnma",
-                            CreatedUtc = new DateTime(2025, 7, 22, 12, 24, 34, 208, DateTimeKind.Utc).AddTicks(8082),
-                            Description = "Web Development and Design courses",
-                            DisplayOrder = 1,
-                            IconUrl = "https://example.com/icons/web-development.png",
-                            ImageUrl = "",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Keywords = "web development, web design, HTML, CSS, JavaScript",
-                            LastModifiedAt = new DateTime(2025, 7, 22, 12, 24, 34, 208, DateTimeKind.Utc).AddTicks(8083),
-                            MetaDescription = "Learn web development from scratch with our comprehensive courses.",
-                            MetaTitle = "Web Development Courses",
-                            ModifiedBy = "MohamadEnma",
-                            Name = "Web Development",
-                            Slug = "web-development"
-                        });
+                    b.ToTable("Courses");
                 });
 
             modelBuilder.Entity("EducationPLT.DAL.Models.CourseEntities.Enrollment", b =>
@@ -329,6 +156,9 @@ namespace EducationPLT.DAL.Migrations
                         .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("CertificateIssued")
                         .HasColumnType("bit");
@@ -360,15 +190,11 @@ namespace EducationPLT.DAL.Migrations
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
-                        .ValueGeneratedOnAdd()
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)")
-                        .HasDefaultValue("MohamadEnma");
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<DateTime>("CreatedUtc")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2025, 7, 22, 12, 24, 34, 209, DateTimeKind.Utc).AddTicks(168));
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DeletedAt")
                         .HasColumnType("datetime2");
@@ -406,9 +232,7 @@ namespace EducationPLT.DAL.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("LastModifiedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2025, 7, 22, 12, 24, 34, 209, DateTimeKind.Utc).AddTicks(1251));
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ModifiedBy")
                         .IsRequired()
@@ -427,7 +251,7 @@ namespace EducationPLT.DAL.Migrations
                         .HasColumnType("bit");
 
                     b.Property<decimal>("PaidAmount")
-                        .HasColumnType("decimal(10,2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("PaymentDate")
                         .HasColumnType("datetime2");
@@ -442,10 +266,8 @@ namespace EducationPLT.DAL.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<string>("StudentId")
                         .IsRequired()
@@ -464,28 +286,13 @@ namespace EducationPLT.DAL.Migrations
 
                     b.HasKey("EnrollmentId");
 
-                    b.HasIndex("CompletionDate")
-                        .HasDatabaseName("IX_Enrollments_CompletionDate");
+                    b.HasIndex("ApplicationUserId");
 
-                    b.HasIndex("EnrollmentDate")
-                        .HasDatabaseName("IX_Enrollments_EnrollmentDate");
-
-                    b.HasIndex("LastAccessedAt")
-                        .HasDatabaseName("IX_Enrollments_LastAccessedAt");
-
-                    b.HasIndex("PaymentStatus")
-                        .HasDatabaseName("IX_Enrollments_PaymentStatus");
-
-                    b.HasIndex("Status")
-                        .HasDatabaseName("IX_Enrollments_Status");
+                    b.HasIndex("CourseId");
 
                     b.HasIndex("StudentId");
 
-                    b.HasIndex("CourseId", "StudentId")
-                        .IsUnique()
-                        .HasDatabaseName("IX_Enrollments_Course_Student");
-
-                    b.ToTable("Enrollments", (string)null);
+                    b.ToTable("Enrollments");
                 });
 
             modelBuilder.Entity("EducationPLT.DAL.Models.UserEntities.ApplicationUser", b =>
@@ -770,32 +577,33 @@ namespace EducationPLT.DAL.Migrations
 
             modelBuilder.Entity("EducationPLT.DAL.Models.CourseEntities.Course", b =>
                 {
-                    b.HasOne("EducationPLT.DAL.Models.CourseEntities.CourseCategory", "Category")
+                    b.HasOne("EducationPLT.DAL.Models.UserEntities.ApplicationUser", null)
                         .WithMany("Courses")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("ApplicationUserId");
 
                     b.HasOne("EducationPLT.DAL.Models.UserEntities.ApplicationUser", "Instructor")
-                        .WithMany("Courses")
+                        .WithMany()
                         .HasForeignKey("InstructorId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.Navigation("Category");
 
                     b.Navigation("Instructor");
                 });
 
             modelBuilder.Entity("EducationPLT.DAL.Models.CourseEntities.Enrollment", b =>
                 {
+                    b.HasOne("EducationPLT.DAL.Models.UserEntities.ApplicationUser", null)
+                        .WithMany("Enrollments")
+                        .HasForeignKey("ApplicationUserId");
+
                     b.HasOne("EducationPLT.DAL.Models.CourseEntities.Course", "Course")
                         .WithMany("Enrollments")
                         .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("EducationPLT.DAL.Models.UserEntities.ApplicationUser", "Student")
-                        .WithMany("Enrollments")
+                        .WithMany()
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -859,11 +667,6 @@ namespace EducationPLT.DAL.Migrations
             modelBuilder.Entity("EducationPLT.DAL.Models.CourseEntities.Course", b =>
                 {
                     b.Navigation("Enrollments");
-                });
-
-            modelBuilder.Entity("EducationPLT.DAL.Models.CourseEntities.CourseCategory", b =>
-                {
-                    b.Navigation("Courses");
                 });
 
             modelBuilder.Entity("EducationPLT.DAL.Models.UserEntities.ApplicationUser", b =>
