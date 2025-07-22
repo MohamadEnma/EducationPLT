@@ -17,13 +17,9 @@ namespace EducationPlatform.DAL.Seeds
             // Ensure database is created
             await context.Database.EnsureCreatedAsync();
 
-            // Seed Roles
             await SeedRolesAsync(roleManager);
-
-            // Seed Users
+            await SeedCourseCategoriesAsync(context); 
             await SeedUsersAsync(userManager);
-
-            // Seed Courses
             await SeedCoursesAsync(context, userManager);
 
             await context.SaveChangesAsync();
@@ -198,9 +194,9 @@ namespace EducationPlatform.DAL.Seeds
             if (!context.Courses.Any())
             {
                 var teacher = await userManager.FindByEmailAsync("teacher@educationplatform.com");
-                //var categories = await context.Categories.ToListAsync();
+                var categories = await context.Categories.ToListAsync();
 
-                if (teacher != null )
+                if (teacher != null && categories.Any())
                 {
                     var courses = new List<Course>
                     {
@@ -214,7 +210,7 @@ namespace EducationPlatform.DAL.Seeds
                             Price =  194,
                             IsFree = false,
                             InstructorId = teacher.Id,
-                            //CategoryId = categories.First(c => c.Name == "Programming").CourseCategoryId,
+                            CategoryId = categories.First(c => c.Name == "Programming").CourseCategoryId,
                             StartDate = DateTime.UtcNow.AddDays(7),
                             EndDate = DateTime.UtcNow.AddDays(67),
                             EstimatedDuration = 1800,
@@ -239,7 +235,7 @@ namespace EducationPlatform.DAL.Seeds
                             Price = 149.99m,
                             IsFree = false,
                             InstructorId = teacher.Id,
-                            //CategoryId = categories.First(c => c.Name == "Design").CourseCategoryId,
+                            CategoryId = categories.First(c => c.Name == "Design").CourseCategoryId,
                             StartDate = DateTime.UtcNow.AddDays(14),
                             EndDate = DateTime.UtcNow.AddDays(84),
                             EstimatedDuration = 2000,
@@ -264,7 +260,7 @@ namespace EducationPlatform.DAL.Seeds
                             Price = 0m,
                             IsFree = true,
                             InstructorId = teacher.Id,
-                            //CategoryId = categories.First(c => c.Name == "Business").CourseCategoryId,
+                            CategoryId = categories.First(c => c.Name == "Business").CourseCategoryId,
                             StartDate = DateTime.UtcNow.AddDays(21),
                             EndDate = DateTime.UtcNow.AddDays(63),
                             EstimatedDuration = 2500,
