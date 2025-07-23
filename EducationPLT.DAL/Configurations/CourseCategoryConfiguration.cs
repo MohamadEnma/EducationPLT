@@ -78,56 +78,6 @@ namespace EducationPLT.DAL.Configurations
             // Query Filter
             builder.HasQueryFilter(c => !c.IsDeleted);
 
-
-            // Seed Data
-            builder.HasData(
-                new CourseCategory
-                {
-                    CourseCategoryId = 1,
-                    Name = "Programming",
-                    Description = "Programming and Software Development courses",
-                    DisplayOrder = 1,
-                    IsActive = true,
-                    Slug = "programming",
-                    CreatedUtc = DateTime.Parse("2025-07-06 11:24:28"),
-                    CreatedBy = "MohamadEnma",
-                    LastModifiedAt = DateTime.UtcNow,
-                    ColorCode = "#3498db", // Example color code
-                    IconUrl = "https://example.com/icons/programming.png",
-                    MetaTitle = "Programming Courses",
-                    MetaDescription = "Explore our wide range of programming courses to enhance your coding skills.",
-                    Keywords = "programming, software development, coding, courses",
-                    IsDeleted = false,
-                    DeletedAt = null,
-                    DeletedBy = null,
-                    ModifiedBy = "MohamadEnma"
-
-
-
-                },
-                new CourseCategory
-                {
-                    CourseCategoryId = 2,
-                    Name = "Web Development",
-                    Description = "Web Development and Design courses",
-                    DisplayOrder = 1,
-                    IsActive = true,
-                    Slug = "web-development",
-                    CreatedUtc = DateTime.UtcNow,
-                    CreatedBy = "MohamadEnma",
-                    LastModifiedAt = DateTime.UtcNow,
-                    ColorCode = "#2ecc71", // Example color code
-                    IconUrl = "https://example.com/icons/web-development.png",
-                    MetaTitle = "Web Development Courses",
-                    MetaDescription = "Learn web development from scratch with our comprehensive courses.",
-                    Keywords = "web development, web design, HTML, CSS, JavaScript",
-                    IsDeleted = false,
-                    DeletedAt = null,
-                    DeletedBy = null,
-                    ModifiedBy = "MohamadEnma"
-                }
-
-             );
         }
     }
 }

@@ -37,7 +37,7 @@ namespace EducationPLT.DAL.Models.UserEntities
         public DateTime DateOfBirth { get; set; }
 
         // User Status
-        public bool IsActive { get; set; }
+        public bool IsActive { get; set; } = true;
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime LastLoginAt { get; set; } = DateTime.UtcNow;
 
@@ -63,7 +63,7 @@ namespace EducationPLT.DAL.Models.UserEntities
         // Soft Delete
         public bool IsDeleted { get; set; }
         public DateTime? DeletedAt { get; set; }
-        public string DeletedBy { get; set; }
+        public string? DeletedBy { get; set; }
 
 
         // Helper Properties for Logging

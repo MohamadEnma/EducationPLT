@@ -314,8 +314,6 @@ namespace EducationPLT.WEB.Controllers
         }
 
         // POST: Courses/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("CourseId,Title,Description,IsPublished,Status,Difficulty,CreatedAt,LastModifiedAt,PublishedAt,StartDate,EndDate,MaxStudents,EstimatedDuration,Price,IsFree,InstructorId,CategoryId,ThumbnailUrl,PreviewVideoUrl,Requirements,LearningObjectives,CreatedUtc,CreatedBy,ModifiedUtc,ModifiedBy,IsDeleted,DeletedAt,DeletedBy")] Course course)

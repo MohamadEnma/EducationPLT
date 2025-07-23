@@ -74,13 +74,17 @@ namespace EducationPLT.WEB
                     var context = services.GetRequiredService<ApplicationDbContext>();
                     var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
                     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-
+                    var logger = services.GetRequiredService<ILogger<Program>>();
+                    logger.LogInformation("Starting database seeding...");
                     await SeedData.SeedAsync(context, userManager, roleManager);
+                    logger.LogInformation("Database seeding completed successfully.");
                 }
                 catch (Exception ex)
                 {
                     var logger = services.GetRequiredService<ILogger<Program>>();
                     logger.LogError(ex, "An error occurred while seeding the database.");
+                    logger.LogError($"Inner exception: {ex.InnerException?.Message}");
+                    throw; // Re-throw to see the full error
                 }
             }
 

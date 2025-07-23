@@ -17,8 +17,8 @@ namespace EducationPlatform.DAL.Seeds
             // Ensure database is created
             await context.Database.EnsureCreatedAsync();
 
-            await SeedRolesAsync(roleManager);
-            await SeedCourseCategoriesAsync(context); 
+            await SeedRolesAsync(roleManager); 
+            await SeedCourseCategoriesAsync(context);
             await SeedUsersAsync(userManager);
             await SeedCoursesAsync(context, userManager);
 
@@ -38,50 +38,37 @@ namespace EducationPlatform.DAL.Seeds
             }
         }
 
-        private static async Task SeedCourseCategoriesAsync(ApplicationDbContext context)
+       private static async Task SeedCourseCategoriesAsync(ApplicationDbContext context)
         {
             if (!context.Categories.Any())
             {
                 var categories = new List<CourseCategory>
                 {
+
                     new CourseCategory
                     {
-                        Name = "Programming",
-                        Description = "Learn various programming languages and software development",
-                        DisplayOrder = 1,
-                        IconUrl = "fas fa-code",
-                        ImageUrl = "/images/categories/programming.jpg",
-                        ColorCode = "#007bff",
-                        IsActive = true,
-                        Slug = "programming",
-                        MetaTitle = "Programming Courses",
-                        MetaDescription = "Master programming with our comprehensive courses",
-                        Keywords = "programming, coding, software development",
-                        CreatedUtc = DateTime.UtcNow,
-                        CreatedBy = "System",
-                        LastModifiedAt = DateTime.UtcNow,
-                        IsDeleted = false
+                       
+                      Name = "Design",
+                      Description = "Graphic design, UI/UX, and creative arts courses",
+                      DisplayOrder = 2,
+                      IsActive = true,
+                      IconUrl = "fas fa-paint-brush",
+                      ImageUrl = "/images/categories/design.jpg",
+                      ColorCode = "#28a745",
+                      Slug = "design",
+                      MetaTitle = "Design Courses",
+                      MetaDescription = "Unleash your creativity with our design courses",
+                      Keywords = "design, graphics, ui, ux, creative",
+                      CreatedUtc = DateTime.UtcNow,
+                      CreatedBy = "System",
+                      LastModifiedAt = DateTime.UtcNow,
+                      IsDeleted = false,
+                      DeletedAt = null,
+                      DeletedBy = null
                     },
-                    new CourseCategory
+                   new CourseCategory
                     {
-                        Name = "Design",
-                        Description = "Graphic design, UI/UX, and creative arts courses",
-                        DisplayOrder = 2,
-                        IconUrl = "fas fa-paint-brush",
-                        ImageUrl = "/images/categories/design.jpg",
-                        ColorCode = "#28a745",
-                        IsActive = true,
-                        Slug = "design",
-                        MetaTitle = "Design Courses",
-                        MetaDescription = "Unleash your creativity with our design courses",
-                        Keywords = "design, graphics, ui, ux, creative",
-                        CreatedUtc = DateTime.UtcNow,
-                        CreatedBy = "System",
-                        LastModifiedAt = DateTime.UtcNow,
-                        IsDeleted = false
-                    },
-                    new CourseCategory
-                    {
+                       
                         Name = "Business",
                         Description = "Business management, marketing, and entrepreneurship",
                         DisplayOrder = 3,
@@ -96,10 +83,12 @@ namespace EducationPlatform.DAL.Seeds
                         CreatedUtc = DateTime.UtcNow,
                         CreatedBy = "System",
                         LastModifiedAt = DateTime.UtcNow,
-                        IsDeleted = false
+                        IsDeleted = false,
+                        DeletedAt = null,
+                        DeletedBy = null,
                     }
-                };
 
+                };
                 context.Categories.AddRange(categories);
                 await context.SaveChangesAsync();
             }
@@ -124,7 +113,11 @@ namespace EducationPlatform.DAL.Seeds
                     ProfilePictureUrl = "/images/profiles/admin.jpg",
                     IsActive = true,
                     CreatedAt = DateTime.UtcNow,
-                    LastLoginAt = DateTime.UtcNow
+                    LastLoginAt = DateTime.UtcNow,
+                    AvatarUrl = "/images/avatars/admin-avatar.jpg",
+                    CreatedBy = "SYSTEM",
+                    DisplayName = "System Admin",
+                    ModifiedBy = "SYSTEM"
                 };
 
                 var result = await userManager.CreateAsync(adminUser, "Admin123!");
@@ -151,7 +144,13 @@ namespace EducationPlatform.DAL.Seeds
                     ProfilePictureUrl = "/images/profiles/teacher.jpg",
                     IsActive = true,
                     CreatedAt = DateTime.UtcNow,
-                    LastLoginAt = DateTime.UtcNow
+                    LastLoginAt = DateTime.UtcNow,
+                    AvatarUrl = "/images/avatars/Teacher-avatar.jpg",
+                    CreatedBy = "SYSTEM",
+                    DisplayName = "System Teacher",
+                    ModifiedBy = "SYSTEM"
+
+
                 };
 
                 var result = await userManager.CreateAsync(teacherUser, "Teacher123!");
@@ -178,7 +177,11 @@ namespace EducationPlatform.DAL.Seeds
                     ProfilePictureUrl = "/images/profiles/student.jpg",
                     IsActive = true,
                     CreatedAt = DateTime.UtcNow,
-                    LastLoginAt = DateTime.UtcNow
+                    LastLoginAt = DateTime.UtcNow,
+                    AvatarUrl = "/images/avatars/Student-avatar.jpg",
+                    CreatedBy = "SYSTEM",
+                    DisplayName = "System Student",
+                    ModifiedBy = "SYSTEM"
                 };
 
                 var result = await userManager.CreateAsync(studentUser, "Student123!");
@@ -198,10 +201,44 @@ namespace EducationPlatform.DAL.Seeds
 
                 if (teacher != null && categories.Any())
                 {
+                    var programmingCategory = categories.FirstOrDefault(c => c.Name == "Programming");
+                    if (programmingCategory == null)
+                    {
+                        throw new Exception("Programming category not found. Please ensure categories are seeded before courses.");
+                    }else
+                    {
+                        programmingCategory.IsActive = true;
+                        programmingCategory.LastModifiedAt = DateTime.UtcNow;
+                        context.Categories.Update(programmingCategory);
+                    }
+
+                    var designCategory = categories.FirstOrDefault(c => c.Name == "Design");
+                    if (designCategory == null)
+                    {
+                        throw new Exception("Programming category not found. Please ensure categories are seeded before courses.");
+                    }
+                    else
+                    {
+                        designCategory.IsActive = true;
+                        designCategory.LastModifiedAt = DateTime.UtcNow;
+                        context.Categories.Update(designCategory);
+                    }
+                    var businessCategory = categories.FirstOrDefault(c => c.Name == "Programming");
+                    if (businessCategory == null)
+                    {
+                        throw new Exception("Programming category not found. Please ensure categories are seeded before courses.");
+                    }
+                    else
+                    {
+                        businessCategory.IsActive = true;
+                        businessCategory.LastModifiedAt = DateTime.UtcNow;
+                        context.Categories.Update(businessCategory);
+                    }
                     var courses = new List<Course>
                     {
                         new Course
                         {
+
                             Title = "C# Programming Fundamentals",
                             Description = "Learn the basics of C# programming language from scratch. This comprehensive course covers variables, data types, control structures, object-oriented programming, and more.",
                             IsPublished = true,
@@ -210,7 +247,7 @@ namespace EducationPlatform.DAL.Seeds
                             Price =  194,
                             IsFree = false,
                             InstructorId = teacher.Id,
-                            CategoryId = categories.First(c => c.Name == "Programming").CourseCategoryId,
+                            CategoryId = programmingCategory.CourseCategoryId,
                             StartDate = DateTime.UtcNow.AddDays(7),
                             EndDate = DateTime.UtcNow.AddDays(67),
                             EstimatedDuration = 1800,
@@ -235,7 +272,7 @@ namespace EducationPlatform.DAL.Seeds
                             Price = 149.99m,
                             IsFree = false,
                             InstructorId = teacher.Id,
-                            CategoryId = categories.First(c => c.Name == "Design").CourseCategoryId,
+                            CategoryId = designCategory.CourseCategoryId,
                             StartDate = DateTime.UtcNow.AddDays(14),
                             EndDate = DateTime.UtcNow.AddDays(84),
                             EstimatedDuration = 2000,
@@ -260,7 +297,7 @@ namespace EducationPlatform.DAL.Seeds
                             Price = 0m,
                             IsFree = true,
                             InstructorId = teacher.Id,
-                            CategoryId = categories.First(c => c.Name == "Business").CourseCategoryId,
+                            CategoryId = businessCategory.CourseCategoryId,
                             StartDate = DateTime.UtcNow.AddDays(21),
                             EndDate = DateTime.UtcNow.AddDays(63),
                             EstimatedDuration = 2500,

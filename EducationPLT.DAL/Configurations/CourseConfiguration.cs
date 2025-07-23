@@ -146,6 +146,7 @@ namespace EducationPLT.DAL.Configurations
 
             // Query Filters
             builder.HasQueryFilter(c => !c.IsDeleted);
+
         }
     }
 }
